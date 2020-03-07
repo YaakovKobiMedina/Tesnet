@@ -72,7 +72,8 @@ public class W3schools {
                     table, searchColumn, searchText, returnColumnText);
             verificationResult = expectedText.equals(actualTableCellText);
         } catch (Exception e){
-            logger.log(Level.SEVERE, "Couldn't find table cell text\n" + Arrays.toString(e.getStackTrace()));
+            logger.log(Level.SEVERE, "Couldn't find table cell text");
+            e.printStackTrace();
         }
 
         return verificationResult;
