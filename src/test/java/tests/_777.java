@@ -9,13 +9,10 @@ import utilities.DriverUtilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 public class _777 {
-    private static Logger logger = Logger.getLogger(_777.class.getName());
-
     private static WebDriver driver;
     private static pages._777 _777;
 
