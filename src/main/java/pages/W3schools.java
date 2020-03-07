@@ -4,14 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import java.util.List;
 
 public class W3schools {
-    private static Logger logger = Logger.getLogger(W3schools.class.getName());
     public WebElement table;
 
     public W3schools(WebDriver driver){
@@ -20,6 +15,12 @@ public class W3schools {
 
     public String getTableCellText(WebElement table, int searchColumn, String searchText, int returnColumnText) {
         String returnText = null;
+
+        assert searchColumn > 0;
+        assert searchColumn < 4;
+        assert returnColumnText > 0;
+        assert returnColumnText < 4;
+
         List<WebElement> trs = table.findElements(By.xpath(".//tr[td]"));
         for (WebElement tr : trs) {
             WebElement searchTd = tr.findElement(By.xpath("./td[" + searchColumn + "]"));
@@ -42,14 +43,9 @@ public class W3schools {
         assert returnColumnText > 0;
         assert returnColumnText < 4;
 
-        try{
-            WebElement searchTr = table.findElement(By.xpath(
-                    ".//tr[td[" + searchColumn + " and text()='" + searchText + "']]"));
-            tableCellText = searchTr.findElement(By.xpath("./td[" + returnColumnText + "]")).getText();
-        } catch (Exception e){
-            logger.log(Level.SEVERE, "Couldn't find table cell text\n" + Arrays.toString(e.getStackTrace()));
-            throw e;
-        }
+        WebElement searchTr = table.findElement(By.xpath(
+                ".//tr[td[" + searchColumn + " and text()='" + searchText + "']]"));
+        tableCellText = searchTr.findElement(By.xpath("./td[" + returnColumnText + "]")).getText();
 
         return tableCellText;
     }

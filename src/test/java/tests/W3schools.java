@@ -10,6 +10,9 @@ import org.openqa.selenium.WebElement;
 import utilities.DriverUtilities;
 import utilities.TestDataUtilities;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -22,6 +25,8 @@ public class W3schools {
     public static Iterable<Object[]> data() throws IOException {
         return TestDataUtilities.getTestDataSets();
     }
+
+    private static Logger logger = Logger.getLogger(W3schools.class.getName());
 
     private int searchColumn;
     private String searchText;
@@ -48,9 +53,10 @@ public class W3schools {
     }
 
     @Test
-    public void test() throws Exception {
-        assertTrue("Table cell text \"" + returnText + "\" wasn't found",
-                verifyTableCellText(w3schools.table, searchColumn, searchText, returnColumnText, returnText));
+    public void test() {
+        boolean verificationResult =
+                verifyTableCellText(w3schools.table, searchColumn, searchText, returnColumnText, returnText);
+        assertTrue("Table cell text \"" + returnText + "\" wasn't found", verificationResult);
     }
 
     @AfterClass
@@ -59,10 +65,16 @@ public class W3schools {
     }
 
     public boolean verifyTableCellText(
-            WebElement table, int searchColumn, String searchText, int returnColumnText, String expectedText)
-            throws Exception {
-        String actualTableCellText = w3schools.getTableCellTextByXpath(
-                table, searchColumn, searchText, returnColumnText);
-        return expectedText.equals(actualTableCellText);
+            WebElement table, int searchColumn, String searchText, int returnColumnText, String expectedText) {
+        boolean verificationResult = false;
+        try {
+            String actualTableCellText = w3schools.getTableCellTextByXpath(
+                    table, searchColumn, searchText, returnColumnText);
+            verificationResult = expectedText.equals(actualTableCellText);
+        } catch (Exception e){
+            logger.log(Level.SEVERE, "Couldn't find table cell text\n" + Arrays.toString(e.getStackTrace()));
+        }
+
+        return verificationResult;
     }
 }
