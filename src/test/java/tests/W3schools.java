@@ -37,6 +37,7 @@ public class W3schools {
         this.searchText = searchText;
         this.returnColumnText = Integer.parseInt(returnColumnText);
         this.returnText = returnText;
+
     }
 
     @BeforeClass
